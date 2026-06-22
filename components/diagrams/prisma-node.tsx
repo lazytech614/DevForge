@@ -11,7 +11,7 @@ export default function PrismaNode({
       />
 
       <div className="min-w-55 overflow-hidden rounded-xl border bg-background shadow-lg">
-        <div className="border-b bg-muted px-4 py-2 font-semibold">
+        <div className="border-b bg-primary/10 px-4 py-2 font-semibold">
           {data.name}
         </div>
 
@@ -19,7 +19,7 @@ export default function PrismaNode({
           {data.fields.map((field: any) => (
             <div
               key={field.name}
-              className="flex justify-between"
+              className="flex justify-between rounded px-2 py-1 hover:bg-muted"
             >
               <span>{field.name}</span>
 

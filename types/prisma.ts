@@ -11,4 +11,5 @@ export interface PrismaModel {
 export interface PrismaRelation {
   source: string;
   target: string;
+  label: string;
 }

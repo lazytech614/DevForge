@@ -31,6 +31,9 @@ export default function PrismaDiagram({
         edges={edges}
         fitView
         nodeTypes={nodeTypes}
+        fitViewOptions={{
+          padding: 0.3,
+        }}
       >
         <Controls />
         <MiniMap />

@@ -59,9 +59,12 @@ export function parsePrismaSchema(
         modelNames.has(cleanType) &&
         cleanType !== model.name
       ) {
+        const isMany = field.type.includes("[]");
+
         relations.push({
           source: model.name,
           target: cleanType,
+          label: isMany ? "1:N" : "1:1",
         });
       }
     });
