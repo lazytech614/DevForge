@@ -1,7 +1,8 @@
-import { PrismaField, PrismaModel, PrismaRelation } from "@/types/prisma";
+import { PrismaEnum, PrismaField, PrismaModel, PrismaRelation } from "@/types/prisma";
 
 export interface PrismaParseResult {
   models: PrismaModel[];
+  enums: PrismaEnum[];
   relations: PrismaRelation[];
 }
 
@@ -10,8 +11,7 @@ export function parsePrismaSchema(
 ): PrismaParseResult {
   const models: PrismaModel[] = [];
 
-  const modelRegex =
-    /model\s+(\w+)\s*\{([\s\S]*?)\}/g;
+  const modelRegex = /model\s+(\w+)\s*\{([\s\S]*?)\}/g;
 
   let match;
 
@@ -24,7 +24,12 @@ export function parsePrismaSchema(
     body
       .split("\n")
       .map((line) => line.trim())
-      .filter(Boolean)
+      .filter(
+        (line) =>
+          line &&
+          !line.startsWith("//") &&
+          !line.startsWith("@@")
+      )
       .forEach((line) => {
         const parts = line.split(/\s+/);
 
@@ -70,8 +75,34 @@ export function parsePrismaSchema(
     });
   });
 
+  const enums: PrismaEnum[] = [];
+
+  const enumRegex = /enum\s+(\w+)\s*\{([\s\S]*?)\}/g;
+
+  let enumMatch;
+
+  while ((enumMatch = enumRegex.exec(schema)) !== null) {
+    const enumName = enumMatch[1];
+    const enumBody = enumMatch[2];
+
+    const values = enumBody
+      .split("\n")
+      .map((line) => line.trim())
+      .filter(
+        (line) =>
+          line &&
+          !line.startsWith("//")
+      );
+
+    enums.push({
+      name: enumName,
+      values,
+    });
+  }
+
   return {
     models,
+    enums,
     relations,
   };
 }

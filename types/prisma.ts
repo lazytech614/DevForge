@@ -3,6 +3,11 @@ export interface PrismaField {
   type: string;
 }
 
+export interface PrismaEnum {
+  name: string;
+  values: string[];
+}
+
 export interface PrismaModel {
   name: string;
   fields: PrismaField[];

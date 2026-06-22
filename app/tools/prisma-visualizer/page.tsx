@@ -73,6 +73,31 @@ export default function PrismaVisualizerPage() {
     setDiagramKey((prev) => prev + 1);
   };
 
+  const handleExportJson = () => {
+    const blob = new Blob(
+      [
+        JSON.stringify(
+          parsed,
+          null,
+          2
+        ),
+      ],
+      {
+        type:
+          "application/json",
+      }
+    );
+
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = "prisma-schema.json";
+
+    link.click();
+
+    URL.revokeObjectURL(url);
+  };
+
   return (
     <ToolLayout
       title="Prisma Schema Visualizer"
@@ -100,6 +125,7 @@ export default function PrismaVisualizerPage() {
           onExport={handleExport}
           onAutoLayout={handleAutoLayout}
           onFullscreen={handleFullscreen}
+          onExportJson={handleExportJson}
         />
 
         <PrismaFileUpload

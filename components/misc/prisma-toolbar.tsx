@@ -9,6 +9,7 @@ interface PrismaToolbarProps {
   onExport: () => void;
   onAutoLayout: () => void;
   onFullscreen: () => void;
+  onExportJson: () => void;
 }
 
 export function PrismaToolbar({
@@ -17,7 +18,8 @@ export function PrismaToolbar({
   onCopy,
   onExport,
   onAutoLayout,
-  onFullscreen
+  onFullscreen,
+  onExportJson
 }: PrismaToolbarProps) {
 
   return (
@@ -57,6 +59,12 @@ export function PrismaToolbar({
         onClick={onFullscreen}
       >
         Full Screen
+      </Button>
+
+      <Button
+        onClick={onExportJson}
+      >
+        Export JSON
       </Button>
     </div>
   );

@@ -42,8 +42,32 @@ export function generateFlow(
       })
     );
 
+  const enumNodes: Node[] =
+    parsed.enums.map(
+      (enumItem, index) => ({
+        id: `enum-${enumItem.name}`,
+
+        type: "prismaEnumNode",
+
+        position: {
+          x: 0,
+          y: 0,
+        },
+
+        data: {
+          name: enumItem.name,
+          values: enumItem.values,
+        },
+      })
+    );
+
+  const allNodes = [
+    ...nodes,
+    ...enumNodes,
+  ];
+
   return getLayoutedElements(
-    nodes,
+    allNodes,
     edges
   );
 }

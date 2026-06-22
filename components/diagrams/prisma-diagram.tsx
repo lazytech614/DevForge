@@ -1,9 +1,6 @@
 "use client";
 
-import {
-  forwardRef,
-} from "react";
-
+import { forwardRef } from "react";
 import {
   Background,
   Controls,
@@ -12,13 +9,14 @@ import {
   useEdgesState,
   useNodesState,
 } from "@xyflow/react";
-
 import "@xyflow/react/dist/style.css";
 
 import PrismaNode from "./prisma-node";
+import PrismaEnumNode from "./prisma-enum-node";
 
 const nodeTypes = {
   prismaNode: PrismaNode,
+  prismaEnumNode: PrismaEnumNode,
 };
 
 interface Props {
@@ -52,7 +50,7 @@ const PrismaDiagram = forwardRef<
     return (
       <div
         ref={ref}
-        className="h-[850px] rounded-xl border overflow-hidden"
+        className="h-212.5 rounded-xl border overflow-hidden"
       >
         <ReactFlow
           nodes={nodes}
@@ -93,7 +91,6 @@ const PrismaDiagram = forwardRef<
   }
 );
 
-PrismaDiagram.displayName =
-  "PrismaDiagram";
+PrismaDiagram.displayName = "PrismaDiagram";
 
 export default PrismaDiagram;
