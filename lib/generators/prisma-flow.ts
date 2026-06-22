@@ -24,21 +24,34 @@ export function generateFlow(
       data: {
         name: model.name,
         fields: model.fields,
+        metadata: model.metadata,
       },
     }));
 
   const edges: Edge[] =
     parsed.relations.map(
-      (relation, index) => ({
+      (
+        relation,
+        index
+      ) => ({
         id: `edge-${index}`,
-
         source: relation.source,
-
         target: relation.target,
-
-        animated: true,
-
-        label: relation.label,
+        animated: relation.type !== "N:N",
+        label: relation.foreignKey
+          ? `${relation.type} (${relation.foreignKey})`
+          : relation.type,
+        data: {
+          foreignKey:
+            relation.foreignKey,
+        },
+        style: {
+          strokeWidth:
+            relation.type ===
+            "N:N"
+              ? 3
+              : 2,
+        },
       })
     );
 
