@@ -2,21 +2,19 @@
 
 import { useEffect, useMemo, useState, useRef } from "react";
 import * as htmlToImage from "html-to-image";
+import { toast } from "sonner";
 
 import { samplePrismaSchema } from "@/lib/examples/prisma-schema";
 import { parsePrismaSchema } from "@/lib/parsers/prisma-perser";
 import { generateFlow } from "@/lib/generators/prisma-flow";
+import { validatePrismaSchema } from "@/lib/validators/prisma-schema-validator";
 
 import { ToolLayout } from "@/components/layout/tool-layout";
 import { CodeEditor } from "@/components/editor/monaco-editor";
 import PrismaDiagram from "@/components/diagrams/prisma-diagram";
-
 import { PrismaStats } from "@/components/misc/prisma-stats";
 import { PrismaToolbar } from "@/components/misc/prisma-toolbar";
 import { PrismaFileUpload } from "@/components/misc/prisma-file-upload";
-
-import { toast } from "sonner";
-import { validatePrismaSchema } from "@/lib/validators/prisma-schema-validator";
 import { PrismaValidation } from "@/components/misc/prisma-validation";
 import { SearchBar } from "@/components/shared/search-bar";
 
@@ -63,12 +61,22 @@ export default function PrismaVisualizerPage() {
     );
   };
 
-  const handleExport = async () => {
+  const handleExportPng = async () => {
     if (!diagramRef.current) return;
 
     const dataUrl = await htmlToImage.toPng(diagramRef.current, {cacheBust: true,});
     const link = document.createElement("a");
     link.download = "prisma-diagram.png";
+    link.href = dataUrl;
+    link.click();
+  };
+
+  const handleExportSvg = async () => {
+    if (!diagramRef.current) return;
+
+    const dataUrl = await htmlToImage.toSvg(diagramRef.current, {cacheBust: true,});
+    const link = document.createElement("a");
+    link.download = "prisma-diagram.svg";
     link.href = dataUrl;
     link.click();
   };
@@ -137,7 +145,8 @@ export default function PrismaVisualizerPage() {
             setSchema("")
           }
           onCopy={handleCopy}
-          onExport={handleExport}
+          onExportPng={handleExportPng}
+          onExportSvg={handleExportSvg}
           onAutoLayout={handleAutoLayout}
           onFullscreen={handleFullscreen}
           onExportJson={handleExportJson}

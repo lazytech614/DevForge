@@ -6,7 +6,8 @@ interface PrismaToolbarProps {
   onLoadExample: () => void;
   onClear: () => void;
   onCopy: () => void;
-  onExport: () => void;
+  onExportPng: () => void;
+  onExportSvg: () => void;
   onAutoLayout: () => void;
   onFullscreen: () => void;
   onExportJson: () => void;
@@ -16,7 +17,8 @@ export function PrismaToolbar({
   onLoadExample,
   onClear,
   onCopy,
-  onExport,
+  onExportPng,
+  onExportSvg,
   onAutoLayout,
   onFullscreen,
   onExportJson
@@ -44,9 +46,15 @@ export function PrismaToolbar({
 
       <Button
         variant="default"
-        onClick={onExport}
+        onClick={onExportPng}
       >
         Export PNG
+      </Button>
+
+      <Button
+        onClick={onExportSvg}
+      >
+        Export SVG
       </Button>
 
       <Button
