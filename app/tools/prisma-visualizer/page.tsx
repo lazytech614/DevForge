@@ -18,10 +18,12 @@ import { PrismaFileUpload } from "@/components/misc/prisma-file-upload";
 import { toast } from "sonner";
 import { validatePrismaSchema } from "@/lib/validators/prisma-schema-validator";
 import { PrismaValidation } from "@/components/misc/prisma-validation";
+import { SearchBar } from "@/components/shared/search-bar";
 
 export default function PrismaVisualizerPage() {
   const [schema, setSchema] = useState(samplePrismaSchema);
   const [diagramKey, setDiagramKey] = useState(0);
+  const [search, setSearch] = useState("");
 
   const diagramRef = useRef<HTMLDivElement>(null);
 
@@ -145,6 +147,12 @@ export default function PrismaVisualizerPage() {
           onSchemaLoad={setSchema}
         />
 
+        <SearchBar
+          value={search}
+          onChange={setSearch}
+          placeholder="Search Models..."
+        />
+
         <div className="grid gap-6 lg:grid-cols-5">
           <div className="lg:col-span-2">
             <CodeEditor
@@ -160,6 +168,7 @@ export default function PrismaVisualizerPage() {
               key={diagramKey}
               initialNodes={flow.nodes}
               initialEdges={flow.edges}
+              search={search}
             />
           </div>
         </div>

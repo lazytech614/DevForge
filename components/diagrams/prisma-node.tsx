@@ -10,7 +10,11 @@ export default function PrismaNode({
         position={Position.Top}
       />
 
-      <div className="min-w-55 overflow-hidden rounded-xl border bg-background shadow-lg">
+      <div className={`rounded-xl border shadow-lg ${
+  data.highlighted
+    ? "border-yellow-500 ring-2 ring-yellow-500/40"
+    : ""
+}`}>
         <div className="flex items-center justify-between border-b bg-primary/10 px-4 py-2">
           <p className="font-semibold">
             {data.name}

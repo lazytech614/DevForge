@@ -36,6 +36,7 @@ export default function HomePage() {
       <SearchBar
         value={query}
         onChange={setQuery}
+        placeholder="Search tools..."
       />
 
       {Object.entries(grouped).map(

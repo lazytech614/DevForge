@@ -1,6 +1,6 @@
 "use client";
 
-import { forwardRef } from "react";
+import { forwardRef, useMemo } from "react";
 import {
   Background,
   Controls,
@@ -13,6 +13,7 @@ import "@xyflow/react/dist/style.css";
 
 import PrismaNode from "./prisma-node";
 import PrismaEnumNode from "./prisma-enum-node";
+import DiagramSearchFocus from "./prisma-diagram-search-focus";
 
 const nodeTypes = {
   prismaNode: PrismaNode,
@@ -22,6 +23,7 @@ const nodeTypes = {
 interface Props {
   initialNodes: any[];
   initialEdges: any[];
+  search?: string;
 }
 
 const PrismaDiagram = forwardRef<
@@ -32,6 +34,7 @@ const PrismaDiagram = forwardRef<
     {
       initialNodes,
       initialEdges,
+      search,
     },
     ref
   ) => {
@@ -47,13 +50,29 @@ const PrismaDiagram = forwardRef<
       onEdgesChange,
     ] = useEdgesState(initialEdges);
 
+    const displayNodes = useMemo(() => {
+      return nodes.map((node) => ({
+        ...node,
+        data: {
+          ...node.data,
+          highlighted:
+            search &&
+            node.data.name
+              ?.toLowerCase()
+              .includes(
+                search.toLowerCase()
+              ),
+        },
+      }));
+    }, [nodes, search]);
+
     return (
       <div
         ref={ref}
         className="h-212.5 rounded-xl border overflow-hidden"
       >
         <ReactFlow
-          nodes={nodes}
+          nodes={displayNodes}
           edges={edges}
           onNodesChange={
             onNodesChange
@@ -74,6 +93,11 @@ const PrismaDiagram = forwardRef<
           nodesConnectable={false}
           elementsSelectable
         >
+          <DiagramSearchFocus
+            search={search}
+            nodes={nodes}
+            setNodes={setNodes}
+          />
           <Controls />
 
           <MiniMap
