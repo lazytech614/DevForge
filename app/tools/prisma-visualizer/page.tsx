@@ -16,6 +16,8 @@ import { PrismaToolbar } from "@/components/misc/prisma-toolbar";
 import { PrismaFileUpload } from "@/components/misc/prisma-file-upload";
 
 import { toast } from "sonner";
+import { validatePrismaSchema } from "@/lib/validators/prisma-schema-validator";
+import { PrismaValidation } from "@/components/misc/prisma-validation";
 
 export default function PrismaVisualizerPage() {
   const [schema, setSchema] = useState(samplePrismaSchema);
@@ -32,10 +34,16 @@ export default function PrismaVisualizerPage() {
     return generateFlow(parsed);
   }, [parsed]);
 
+  const validationErrors =
+    useMemo(
+      () => validatePrismaSchema(parsed),
+      [parsed]
+    );
 
   useEffect(() => {
     setDiagramKey((prev) => prev + 1);
   }, [schema]);
+
 
   const fieldCount = parsed.models.reduce(
       (acc, model) =>
@@ -107,9 +115,14 @@ export default function PrismaVisualizerPage() {
         <PrismaStats
           models={parsed.models.length}
           fields={fieldCount}
-          relations={
-            parsed.relations.length
-          }
+          relations={parsed.relations.length}
+        />
+
+        <PrismaValidation
+          errors={validationErrors}
+          modelCount={parsed.models.length}
+          enumCount={parsed.enums.length}
+          relationCount={parsed.relations.length}
         />
 
         <PrismaToolbar
