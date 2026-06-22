@@ -1,10 +1,20 @@
 "use client";
 
+import { Metadata } from "next";
+import { useMemo, useState } from "react";
+
+import { tools } from "@/lib/constants/tools";
+
 import { CategorySection } from "@/components/home/category-section";
 import { PageHeader } from "@/components/shared/page-header";
 import { SearchBar } from "@/components/shared/search-bar";
-import { tools } from "@/lib/constants/tools";
-import { useMemo, useState } from "react";
+
+export const metadata: Metadata = {
+  title: "Developer Tools",
+
+  description:
+    "Free online developer tools including Prisma Schema Visualizer, SQL Explainer, Rate Limiter Calculator and more.",
+};
 
 export default function HomePage() {
   const [query, setQuery] = useState("");
