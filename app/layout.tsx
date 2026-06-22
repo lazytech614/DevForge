@@ -4,6 +4,7 @@ import "./globals.css";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { ThemeProvider } from "@/components/providers/theme-provider";
+import { Toaster } from "sonner";
 
 export const metadata: Metadata = {
   title: "DevForge",
@@ -29,6 +30,7 @@ export default function RootLayout({
             {children}
           </main>
           <Footer />
+          <Toaster />
         </body>
       </ThemeProvider>
     </html>

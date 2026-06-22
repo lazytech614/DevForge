@@ -13,3 +13,9 @@ export interface PrismaRelation {
   target: string;
   label: string;
 }
+
+export interface PrismaStatsProps {
+  models: number;
+  fields: number;
+  relations: number;
+}
