@@ -1,6 +1,11 @@
 "use client";
 
-import { useEffect, useMemo, useState, useRef } from "react";
+import { 
+  useEffect, 
+  useMemo, 
+  useState, 
+  useRef 
+} from "react";
 import * as htmlToImage from "html-to-image";
 import { toast } from "sonner";
 
@@ -9,7 +14,6 @@ import { parsePrismaSchema } from "@/lib/parsers/prisma-perser";
 import { generateFlow } from "@/lib/generators/prisma-flow";
 import { validatePrismaSchema } from "@/lib/validators/prisma-schema-validator";
 
-import { ToolLayout } from "@/components/layout/tool-layout";
 import { CodeEditor } from "@/components/editor/monaco-editor";
 import { PrismaDiagram } from "@/components/diagrams/prisma-diagram";
 import { PrismaStats } from "@/components/misc/prisma-stats";
@@ -17,6 +21,8 @@ import { PrismaToolbar } from "@/components/misc/prisma-toolbar";
 import { PrismaFileUpload } from "@/components/misc/prisma-file-upload";
 import { PrismaValidation } from "@/components/misc/prisma-validation";
 import { SearchBar } from "@/components/shared/search-bar";
+import { PageHeader } from "@/components/shared/page-header";
+import { Database } from "lucide-react";
 
 export default function PrismaVisualizerPage() {
   const [schema, setSchema] = useState(samplePrismaSchema);
@@ -115,71 +121,72 @@ export default function PrismaVisualizerPage() {
   };
 
   return (
-    <ToolLayout
-      title="Prisma Schema Visualizer"
-      description="Convert Prisma schemas into interactive ER diagrams."
-    >
-      <div className="space-y-6">
-        <PrismaStats
-          models={parsed.models.length}
-          fields={fieldCount}
-          relations={parsed.relations.length}
-        />
+    <div className="space-y-12">
+      <PageHeader
+        title="Prisma Visualizer"
+        description="Convert Prisma schemas into interactive ER diagrams. Visualize models, relations, enums and database structure instantly."
+        icon={Database}
+        variant="gradient"
+      />
+      <div className="space-y-8">
+        <div className="flex flex-col md:flex-row items-center justify-between gap-4 md:h-125">
+          <div className="md:w-1/2 flex flex-col justify-between h-full">
+            <PrismaStats
+              models={parsed.models.length}
+              fields={fieldCount}
+              relations={parsed.relations.length}
+            />
 
-        <PrismaValidation
-          errors={validationErrors}
-          modelCount={parsed.models.length}
-          enumCount={parsed.enums.length}
-          relationCount={parsed.relations.length}
-        />
+            <PrismaValidation
+              errors={validationErrors}
+              modelCount={parsed.models.length}
+              enumCount={parsed.enums.length}
+              relationCount={parsed.relations.length}
+            />
 
-        <PrismaToolbar
-          onLoadExample={() =>
-            setSchema(
-              samplePrismaSchema
-            )
-          }
-          onClear={() =>
-            setSchema("")
-          }
-          onCopy={handleCopy}
-          onExportPng={handleExportPng}
-          onExportSvg={handleExportSvg}
-          onAutoLayout={handleAutoLayout}
-          onFullscreen={handleFullscreen}
-          onExportJson={handleExportJson}
-        />
+            <PrismaToolbar
+              onLoadExample={() =>
+                setSchema(
+                  samplePrismaSchema
+                )
+              }
+              onClear={() =>
+                setSchema("")
+              }
+              onCopy={handleCopy}
+              onExportPng={handleExportPng}
+              onExportSvg={handleExportSvg}
+              onAutoLayout={handleAutoLayout}
+              onFullscreen={handleFullscreen}
+              onExportJson={handleExportJson}
+            />
 
-        <PrismaFileUpload
-          onSchemaLoad={setSchema}
-        />
+            <PrismaFileUpload
+              onSchemaLoad={setSchema}
+            />
 
-        <SearchBar
-          value={search}
-          onChange={setSearch}
-          placeholder="Search Models..."
-        />
-
-        <div className="grid gap-6 lg:grid-cols-5">
-          <div className="lg:col-span-2">
+            <SearchBar
+              value={search}
+              onChange={setSearch}
+              placeholder="Search Models..."
+            />
+          </div>
+          <div className="w-full md:w-1/2">
             <CodeEditor
               language="sql"
               value={schema}
               onChange={setSchema}
             />
           </div>
-
-          <div className="lg:col-span-3">
-            <PrismaDiagram
-              ref={diagramRef}
-              key={diagramKey}
-              initialNodes={flow.nodes}
-              initialEdges={flow.edges}
-              search={search}
-            />
-          </div>
         </div>
+        <PrismaDiagram
+          ref={diagramRef}
+          key={diagramKey}
+          initialNodes={flow.nodes}
+          initialEdges={flow.edges}
+          search={search}
+        />
       </div>
-    </ToolLayout>
+    </div>
   );
 }

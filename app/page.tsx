@@ -45,7 +45,7 @@ export default function HomePage() {
     <div className="space-y-12">
       {/* Header Section */}
       <PageHeader
-        title="Backend Playground"
+        title="DevForge"
         description="Interactive backend engineering tools and visualizations. Everything you need to build, test, and debug with ease."
         icon={Zap}
         variant="gradient"
