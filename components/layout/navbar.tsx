@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { ModeToggle } from "./mode-toggle";
 
 export function Navbar() {
   return (
@@ -16,6 +17,7 @@ export function Navbar() {
           <Link href="/docs">Docs</Link>
         </nav>
       </div>
+      <ModeToggle />
     </header>
   );
 }

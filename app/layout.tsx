@@ -58,22 +58,25 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <ThemeProvider
-        attribute="class"
-        defaultTheme="system"
-        enableSystem
-        disableTransitionOnChange
-      >
-        <body>
-          <Navbar />
-          <main className="container mx-auto min-h-screen px-4 py-10">
-            {children}
-          </main>
-          <Footer />
-          <Toaster />
-        </body>
-      </ThemeProvider>
+    <html 
+      lang="en" 
+      suppressHydrationWarning
+    >
+      <body>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+            <Navbar />
+            <main className="container mx-auto min-h-screen px-4 py-10">
+              {children}
+            </main>
+            <Footer />
+            <Toaster />
+        </ThemeProvider>
+      </body>
     </html>
   );
 }

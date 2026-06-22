@@ -11,7 +11,7 @@ import { validatePrismaSchema } from "@/lib/validators/prisma-schema-validator";
 
 import { ToolLayout } from "@/components/layout/tool-layout";
 import { CodeEditor } from "@/components/editor/monaco-editor";
-import PrismaDiagram from "@/components/diagrams/prisma-diagram";
+import { PrismaDiagram } from "@/components/diagrams/prisma-diagram";
 import { PrismaStats } from "@/components/misc/prisma-stats";
 import { PrismaToolbar } from "@/components/misc/prisma-toolbar";
 import { PrismaFileUpload } from "@/components/misc/prisma-file-upload";
@@ -34,16 +34,14 @@ export default function PrismaVisualizerPage() {
     return generateFlow(parsed);
   }, [parsed]);
 
-  const validationErrors =
-    useMemo(
-      () => validatePrismaSchema(parsed),
-      [parsed]
-    );
+  const validationErrors = useMemo(() => 
+    validatePrismaSchema(parsed),
+    [parsed]
+  );
 
   useEffect(() => {
     setDiagramKey((prev) => prev + 1);
   }, [schema]);
-
 
   const fieldCount = parsed.models.reduce(
       (acc, model) =>

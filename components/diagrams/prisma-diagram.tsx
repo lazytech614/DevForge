@@ -26,7 +26,7 @@ interface Props {
   search?: string;
 }
 
-const PrismaDiagram = forwardRef<
+export const PrismaDiagram = forwardRef<
   HTMLDivElement,
   Props
 >(
@@ -116,5 +116,3 @@ const PrismaDiagram = forwardRef<
 );
 
 PrismaDiagram.displayName = "PrismaDiagram";
-
-export default PrismaDiagram;
