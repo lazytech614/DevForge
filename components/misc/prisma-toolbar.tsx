@@ -6,13 +6,20 @@ interface PrismaToolbarProps {
   onLoadExample: () => void;
   onClear: () => void;
   onCopy: () => void;
+  onExport: () => void;
+  onAutoLayout: () => void;
+  onFullscreen: () => void;
 }
 
 export function PrismaToolbar({
   onLoadExample,
   onClear,
   onCopy,
+  onExport,
+  onAutoLayout,
+  onFullscreen
 }: PrismaToolbarProps) {
+
   return (
     <div className="flex flex-wrap gap-2">
       <Button
@@ -31,6 +38,25 @@ export function PrismaToolbar({
 
       <Button onClick={onCopy}>
         Copy Schema
+      </Button>
+
+      <Button
+        variant="default"
+        onClick={onExport}
+      >
+        Export PNG
+      </Button>
+
+      <Button
+        onClick={onAutoLayout}
+      >
+        Auto Layout
+      </Button>
+
+      <Button
+        onClick={onFullscreen}
+      >
+        Full Screen
       </Button>
     </div>
   );

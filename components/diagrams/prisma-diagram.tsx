@@ -1,10 +1,16 @@
 "use client";
 
 import {
+  forwardRef,
+} from "react";
+
+import {
   Background,
   Controls,
   MiniMap,
   ReactFlow,
+  useEdgesState,
+  useNodesState,
 } from "@xyflow/react";
 
 import "@xyflow/react/dist/style.css";
@@ -16,29 +22,78 @@ const nodeTypes = {
 };
 
 interface Props {
-  nodes: any[];
-  edges: any[];
+  initialNodes: any[];
+  initialEdges: any[];
 }
 
-export default function PrismaDiagram({
-  nodes,
-  edges,
-}: Props) {
-  return (
-    <div className="h-200 rounded-xl border">
-      <ReactFlow
-        nodes={nodes}
-        edges={edges}
-        fitView
-        nodeTypes={nodeTypes}
-        fitViewOptions={{
-          padding: 0.3,
-        }}
+const PrismaDiagram = forwardRef<
+  HTMLDivElement,
+  Props
+>(
+  (
+    {
+      initialNodes,
+      initialEdges,
+    },
+    ref
+  ) => {
+    const [
+      nodes,
+      setNodes,
+      onNodesChange,
+    ] = useNodesState(initialNodes);
+
+    const [
+      edges,
+      setEdges,
+      onEdgesChange,
+    ] = useEdgesState(initialEdges);
+
+    return (
+      <div
+        ref={ref}
+        className="h-[850px] rounded-xl border overflow-hidden"
       >
-        <Controls />
-        <MiniMap />
-        <Background />
-      </ReactFlow>
-    </div>
-  );
-}
+        <ReactFlow
+          nodes={nodes}
+          edges={edges}
+          onNodesChange={
+            onNodesChange
+          }
+          onEdgesChange={
+            onEdgesChange
+          }
+          nodeTypes={nodeTypes}
+          fitView
+          fitViewOptions={{
+            padding: 0.3,
+          }}
+          panOnDrag
+          zoomOnScroll
+          zoomOnPinch
+          zoomOnDoubleClick
+          nodesDraggable
+          nodesConnectable={false}
+          elementsSelectable
+        >
+          <Controls />
+
+          <MiniMap
+            zoomable
+            pannable
+          />
+
+          <Background
+            gap={20}
+            size={1}
+          />
+        </ReactFlow>
+      </div>
+    );
+  }
+);
+
+PrismaDiagram.displayName =
+  "PrismaDiagram";
+
+export default PrismaDiagram;
